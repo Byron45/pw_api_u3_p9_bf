@@ -34,6 +34,8 @@ public class EstudianteService {
         estu.setApellido(est.getApellido());
         estu.setNombre(est.getNombre());
         estu.setFechaNacimiento(est.getFechaNacimiento());
+        estu.setGenero(est.getGenero());
+        estu.setProvincia(est.getProvincia());
 
         //se actualiza automaticamente por dirty checking
     }
@@ -49,6 +51,12 @@ public class EstudianteService {
         }
         if (est.getFechaNacimiento() != null) {
             estu.setFechaNacimiento(est.getFechaNacimiento());
+        }
+        if (est.getGenero() != null) {
+            estu.setGenero(est.getGenero());
+        }
+        if (est.getProvincia() != null) {
+            estu.setProvincia(est.getProvincia());
         }
 
         //se actualiza automaticamente por dirty checking

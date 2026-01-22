@@ -56,14 +56,14 @@ public class MateriaResource {
     }
 
     @GET
-    @Path("/{creditos}")
+    @Path("/creditos/{creditos}")
     public List<Materia> buscarPorCredito(@PathParam("creditos") Integer creditos) {
         return this.materiaService.buscarPorCreditos(creditos);
 
     }
 
     @GET
-    @Path("/{horasSemanales}")
+    @Path("/horas/{horasSemanales}")
     public List<Materia> buscarPorHorasSemanales(@PathParam("horasSemanales") Integer horasSemanales) {
         return this.materiaService.buscarPorHorasSemanales(horasSemanales);
     }
