@@ -20,50 +20,50 @@ public class MateriaResource {
     private MateriaService materiaService;
 
     @GET
-    @Path("/todas")
+    @Path("")
     public List<Materia> listarMateria() {
         return this.materiaService.listarMateria();
     }
 
     @GET
-    @Path("/consultarPorID/{id}")
+    @Path("/{id}")
     public Materia consultarPorId(@PathParam("id") Integer id) {
         return this.materiaService.consultarPorId(id);
     }
 
     @POST
-    @Path("/crear")
+    @Path("")
     public void guardar(Materia mat) {
         this.materiaService.crearMateria(mat);
     }
 
     @PUT
-    @Path("/actualizar/{id}")
+    @Path("/{id}")
     public void actualizarMateria(@PathParam("id") Integer id, Materia mat) {
         this.materiaService.actualizarMateria(id, mat);
     }
 
     @PATCH
-    @Path("/actualizarParcial/{id}")
+    @Path("/{id}")
     public void actualizarParcial(@PathParam("id") Integer id, Materia mat) {
         this.materiaService.actualizarParcial(id, mat);
     }
 
     @DELETE
-    @Path("/borrar/{id}")
+    @Path("/{id}")
     public void eliminar(@PathParam("id") Integer id) {
         this.materiaService.eliminar(id);
     }
 
     @GET
-    @Path("/buscarCreditos/{creditos}")
+    @Path("/{creditos}")
     public List<Materia> buscarPorCredito(@PathParam("creditos") Integer creditos) {
         return this.materiaService.buscarPorCreditos(creditos);
 
     }
 
     @GET
-    @Path("/buscarPorHorasSemanales/{horasSemanales}")
+    @Path("/{horasSemanales}")
     public List<Materia> buscarPorHorasSemanales(@PathParam("horasSemanales") Integer horasSemanales) {
         return this.materiaService.buscarPorHorasSemanales(horasSemanales);
     }
