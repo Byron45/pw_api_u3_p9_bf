@@ -10,6 +10,9 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import uce.edu.web.api.materia.application.MateriaService;
 import uce.edu.web.api.materia.domain.Materia;
 
@@ -21,26 +24,30 @@ public class MateriaResource {
 
     @GET
     @Path("")
+    @Produces(MediaType.APPLICATION_JSON)
     public List<Materia> listarMateria() {
         return this.materiaService.listarMateria();
     }
 
     @GET
     @Path("/{id}")
+    @Produces(MediaType.APPLICATION_XML)
     public Materia consultarPorId(@PathParam("id") Integer id) {
         return this.materiaService.consultarPorId(id);
     }
 
     @POST
     @Path("")
-    public void guardar(Materia mat) {
+    public Response guardar(Materia mat) {
         this.materiaService.crearMateria(mat);
+        return Response.status(Response.Status.CREATED).entity(mat).build();
     }
 
     @PUT
     @Path("/{id}")
-    public void actualizarMateria(@PathParam("id") Integer id, Materia mat) {
+    public Response actualizarMateria(@PathParam("id") Integer id, Materia mat) {
         this.materiaService.actualizarMateria(id, mat);
+        return Response.status(209).entity(mat).build();
     }
 
     @PATCH
