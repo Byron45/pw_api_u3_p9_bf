@@ -1,15 +1,18 @@
 package uce.edu.web.api.matricula.application.representation;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class EstudianteRepresentation {
 
     private Integer id;
     private String nombre;
-    public String apellido;
-    public LocalDateTime fechaNacimiento;
-    public String provincia;
-    public String genero;
+    private String apellido;
+    private LocalDateTime fechaNacimiento;
+    private String provincia;
+    private String genero;
+
+    public List<LinkDto> links;
 
     public Integer getId() {
         return id;

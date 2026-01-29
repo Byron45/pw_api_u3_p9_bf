@@ -18,94 +18,86 @@ public class EstudianteService {
 
     public List<EstudianteRepresentation> listarTodos() {
         List<EstudianteRepresentation> list = new ArrayList<>();
-        for (Estudiante estu : this.estudianteRepository.listAll()) {
-            list.add(this.mapperTOER(estu));
+        for (Estudiante est : this.estudianteRepository.listAll()) {
+            list.add(this.mapperToER(est));
         }
         return list;
     }
 
     public EstudianteRepresentation consultarPorId(Integer id) {
-        return this.mapperTOER(this.estudianteRepository.findById(id).orElse(null));
+        return this.mapperToER(estudianteRepository.findById(id.longValue()));
     }
 
     @Transactional
-    public void crear(Estudiante estu) {
-        this.estudianteRepository.persist(estu);
-    }
-
-    @Transactional //cuando genera cambios en la base de datos
-    public void actualizar(Integer id, EstudianteRepresentation est) {
-        EstudianteRepresentation estuRep = this.consultarPorId(id);
-        if (estuRep == null) {
-            return;
-        }
-        Estudiante estu = this.mapperToEstudiante(estuRep);
-        estu.setApellido(est.getApellido());
-        estu.setNombre(est.getNombre());
-        estu.setFechaNacimiento(est.getFechaNacimiento());
-        estu.setGenero(est.getGenero());
-        estu.setProvincia(est.getProvincia());
-
-        //se actualiza automaticamente por dirty checking
+    public void crearEstudiante(EstudianteRepresentation estudiante) {
+        this.estudianteRepository.persist(this.mapperToE(estudiante));
     }
 
     @Transactional
-    public void actualizarParcial(Integer id, Estudiante est) {
-        EstudianteRepresentation estuRep = this.consultarPorId(id);
-        if (estuRep == null) {
-            return;
-        }
-        Estudiante estu = this.mapperToEstudiante(estuRep);
-        if (est.getApellido() != null) {
-            estu.setApellido(est.getApellido());
-        }
-        if (est.getNombre() != null) {
-            estu.setNombre(est.getNombre());
-        }
-        if (est.getFechaNacimiento() != null) {
-            estu.setFechaNacimiento(est.getFechaNacimiento());
-        }
-        if (est.getGenero() != null) {
-            estu.setGenero(est.getGenero());
-        }
-        if (est.getProvincia() != null) {
-            estu.setProvincia(est.getProvincia());
-        }
+    public void actualizarEstudiante(Integer id, EstudianteRepresentation estudiante) {
+        Estudiante est = this.mapperToE(this.consultarPorId(id));
 
-        //se actualiza automaticamente por dirty checking
+        est.setNombre(estudiante.getNombre());
+        est.setApellido(estudiante.getApellido());
+        est.setFechaNacimiento(estudiante.getFechaNacimiento());
+        est.setProvincia(estudiante.getProvincia());
+        est.setGenero(estudiante.getGenero());
+        //se actializa automaticamente por dirty checking
     }
 
     @Transactional
-    public void eliminar(Integer id) {
-        this.estudianteRepository.deleteById(id);
+    public void actualizarParcialEstudiante(Integer id, EstudianteRepresentation estudiante) {
+        Estudiante est = this.mapperToE(this.consultarPorId(id));
+
+        if (estudiante.getNombre() != null) {
+            est.setNombre(estudiante.getNombre());
+        }
+        if (estudiante.getApellido() != null) {
+            est.setApellido(estudiante.getApellido());
+        }
+        if (estudiante.getFechaNacimiento() != null) {
+            est.setFechaNacimiento(estudiante.getFechaNacimiento());
+        }
+        if (estudiante.getProvincia() != null) {
+            est.setProvincia(estudiante.getProvincia());
+        }
+        if (estudiante.getGenero() != null) {
+            est.setGenero(estudiante.getGenero());
+        }
+        //se actializa automaticamente por dirty checking
     }
 
-    public List<Estudiante> buscarPorProvincia(String provincia, String genero) {
-        //return this.estudianteRepository.find("provincia", provincia).list();
-        return this.estudianteRepository.find("provincia = ?1 and genero = ?2", provincia, genero).list();
-
+    @Transactional
+    public void eliminarEstudiante(Integer id) {
+        this.estudianteRepository.deleteById(id.longValue());
     }
 
-    private EstudianteRepresentation mapperTOER(Estudiante estu) {
-        EstudianteRepresentation estuRep = new EstudianteRepresentation();
-        estuRep.setId(estu.getId());
-        estuRep.setApellido(estu.getApellido());
-        estuRep.setNombre(estu.getNombre());
-        estuRep.setFechaNacimiento(estu.getFechaNacimiento());
-        estuRep.setGenero(estu.getGenero());
-        estuRep.setProvincia(estu.getProvincia());
-        return estuRep;
+    public List<EstudianteRepresentation> buscarPorProvincia(String provincia, String genero) {
+        return this.estudianteRepository.find("provincia = ?1 and genero = ?2", provincia, genero).stream()
+                .map(this::mapperToER)
+                .toList();
     }
 
-    private Estudiante mapperToEstudiante(EstudianteRepresentation estuRep) {
-        Estudiante estu = new Estudiante();
-        estu.setId(estuRep.getId());
-        estu.setApellido(estuRep.getApellido());
-        estu.setNombre(estuRep.getNombre());
-        estu.setFechaNacimiento(estuRep.getFechaNacimiento());
-        estu.setGenero(estuRep.getGenero());
-        estu.setProvincia(estuRep.getProvincia());
-        return estu;
+    private EstudianteRepresentation mapperToER(Estudiante estudiante) {
+        EstudianteRepresentation rep = new EstudianteRepresentation();
+        rep.setId(estudiante.getId());
+        rep.setNombre(estudiante.getNombre());
+        rep.setApellido(estudiante.getApellido());
+        rep.setFechaNacimiento(estudiante.getFechaNacimiento());
+        rep.setProvincia(estudiante.getProvincia());
+        rep.setGenero(estudiante.getGenero());
+        return rep;
+    }
+
+    private Estudiante mapperToE(EstudianteRepresentation rep) {
+        Estudiante estudiante = new Estudiante();
+        estudiante.setId(rep.getId());
+        estudiante.setNombre(rep.getNombre());
+        estudiante.setApellido(rep.getApellido());
+        estudiante.setFechaNacimiento(rep.getFechaNacimiento());
+        estudiante.setProvincia(rep.getProvincia());
+        estudiante.setGenero(rep.getGenero());
+        return estudiante;
     }
 
 }
