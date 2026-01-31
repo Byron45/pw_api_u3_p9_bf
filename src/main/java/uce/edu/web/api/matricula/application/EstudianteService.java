@@ -35,19 +35,19 @@ public class EstudianteService {
 
     @Transactional
     public void actualizarEstudiante(Integer id, EstudianteRepresentation estudiante) {
-        Estudiante est = this.mapperToE(this.consultarPorId(id));
+        Estudiante est = estudianteRepository.findById(id.longValue());
 
         est.setNombre(estudiante.getNombre());
         est.setApellido(estudiante.getApellido());
         est.setFechaNacimiento(estudiante.getFechaNacimiento());
         est.setProvincia(estudiante.getProvincia());
         est.setGenero(estudiante.getGenero());
-        //se actializa automaticamente por dirty checking
+        // Ahora SÍ se actualiza automáticamente por dirty checking
     }
 
     @Transactional
     public void actualizarParcialEstudiante(Integer id, EstudianteRepresentation estudiante) {
-        Estudiante est = this.mapperToE(this.consultarPorId(id));
+        Estudiante est = estudianteRepository.findById(id.longValue());
 
         if (estudiante.getNombre() != null) {
             est.setNombre(estudiante.getNombre());
